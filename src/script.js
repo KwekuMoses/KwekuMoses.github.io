@@ -118,15 +118,12 @@ window.addEventListener("mousemove", (event) => {
  * Animate
  */
 
-const raycaster = new THREE.Raycaster(mouse, camera);
+const raycaster = new THREE.Raycaster();
 
 const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
-  //Raycaster
-  raycaster.setFromCamera(mouse, camera);
 
   // Update objects
   //  sphere.rotation.y = .5 * elapsedTime
@@ -140,6 +137,9 @@ const tick = () => {
 
   // Render
   renderer.render(scene, camera);
+
+  //Raycaster
+  raycaster.setFromCamera(mouse, camera);
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
