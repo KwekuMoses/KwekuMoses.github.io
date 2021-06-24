@@ -92,27 +92,47 @@ gui.add(camera.position, "y").min(-5).max(10);
 /**
  * Renderer
  */
-
-// Mouse
-window.addEventListener("wheel", onMouseWheel);
-let y = 0;
-let position = 0;
-
-function onMouseWheel(event) {
-  y = event.deltaY * 0.0007;
-}
-
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-const mouse = new THREE.Vector2();
+/*
+ * Mouse
+ */
+window.addEventListener("wheel", onMouseWheel);
+let y = 0;
+let position = 0;
 
+function onMouseWheel(event) {
+  console.log(event.deltaY);
+  y = event.deltaY * 0.0007;
+}
+
+const mouse = new THREE.Vector2();
 window.addEventListener("mousemove", (event) => {
   mouse.x = (event.clientX / sizes.width) * 2 - 1;
   mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+
+  window.addEventListener("click", () => {
+    if (currentIntersect) {
+      switch (currentIntersect.object) {
+        case objs[0]:
+          console.log("click on object 1");
+          window.open("https://google.com");
+          break;
+
+        case objs[1]:
+          console.log("click on object 2");
+          break;
+
+        case objs[2]:
+          console.log("click on object 3");
+          break;
+      }
+    }
+  });
 });
 
 /**
@@ -122,9 +142,45 @@ window.addEventListener("mousemove", (event) => {
 const raycaster = new THREE.Raycaster();
 
 const clock = new THREE.Clock();
+let rubrik_1 = document.getElementById("rubrik_1");
+let rubrik_2 = document.getElementById("rubrik_2");
+let rubrik_3 = document.getElementById("rubrik_3");
+
+let currentIntersect = null;
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  // cast a ray
+  raycaster.setFromCamera(mouse, camera);
+
+  const objectsToTest = [objs[0], objs[1], objs[2], objs[3]];
+  const intersects = raycaster.intersectObjects(objectsToTest);
+
+  for (const intersect of intersects) {
+    intersect.object.material.color.set("#0000ff");
+  }
+
+  for (const object of objectsToTest) {
+    if (!intersects.find((intersect) => intersect.object === object)) {
+      object.material.color.set("#ff0000");
+    }
+  }
+
+  if (intersects.length) {
+    if (currentIntersect === null) {
+      console.log("mouse enter");
+      console.log(intersects);
+      rubrik_1.style.display = "block";
+    }
+    currentIntersect = intersects[0];
+  } else {
+    if (currentIntersect) {
+      console.log("mouse leave");
+      rubrik_1.style.display = "none";
+    }
+    currentIntersect = null;
+  }
 
   // Update objects
   //  sphere.rotation.y = .5 * elapsedTime
@@ -140,8 +196,8 @@ const tick = () => {
   renderer.render(scene, camera);
 
   //Raycaster
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(objs);
+  //raycaster.setFromCamera(mouse, camera);
+  //const intersects = raycaster.intersectObjects(objs);
 
   // console.log(intersects);
 

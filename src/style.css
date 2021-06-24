@@ -28,8 +28,12 @@ body
     height:100%;
     width: 100%
 }
+
 h1 {
     font-size: 5em;
     font-weight: lighter;
     margin-left: 10vw;
+    display:none
 }
+
+
