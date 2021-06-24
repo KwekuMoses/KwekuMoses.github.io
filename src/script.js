@@ -33,6 +33,7 @@ let objs = [];
 scene.traverse((object) => {
   if (object.isMesh) {
     objs.push(object);
+    console.log(objs);
   }
 });
 
@@ -97,7 +98,6 @@ let y = 0;
 let position = 0;
 
 function onMouseWheel(event) {
-  console.log(event.deltaY);
   y = event.deltaY * 0.0007;
 }
 
@@ -111,7 +111,7 @@ const mouse = new THREE.Vector2();
 
 window.addEventListener("mousemove", (event) => {
   mouse.x = (event.clientX / sizes.width) * 2 - 1;
-  mouse.y = -(event.clientY / sizes.height) * 2 - 1;
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
 });
 
 /**
@@ -129,7 +129,7 @@ const tick = () => {
   //  sphere.rotation.y = .5 * elapsedTime
 
   position += y;
-  camera.position.y = position;
+  camera.position.y = -position;
   y *= 0.9;
 
   // Update Orbital Controls
@@ -140,6 +140,19 @@ const tick = () => {
 
   //Raycaster
   raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(objs);
+
+  // console.log(intersects);
+
+  for (const intersect of intersects) {
+    intersect.object.scale.set(1.1, 1.1);
+  }
+
+  for (const object of objs) {
+    if (!intersects.find((intersect) => intersect.object === object)) {
+      object.scale.set(1, 1);
+    }
+  }
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
