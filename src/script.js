@@ -34,7 +34,7 @@ let objs = [];
 scene.traverse((object) => {
   if (object.isMesh) {
     objs.push(object);
-    console.log(objs);
+    //  console.log(objs);
   }
 });
 
@@ -106,9 +106,10 @@ let y = 0;
 let position = 0;
 
 function onMouseWheel(event) {
-  console.log(event.deltaY);
+  //  console.log(event.deltaY);
   y = event.deltaY * 0.0007;
 }
+let currentIntersect = null;
 
 const mouse = new THREE.Vector2();
 window.addEventListener("mousemove", (event) => {
@@ -142,11 +143,16 @@ window.addEventListener("mousemove", (event) => {
 const raycaster = new THREE.Raycaster();
 
 const clock = new THREE.Clock();
+let rubrik_0 = document.getElementById("rubrik_0");
 let rubrik_1 = document.getElementById("rubrik_1");
 let rubrik_2 = document.getElementById("rubrik_2");
 let rubrik_3 = document.getElementById("rubrik_3");
 
-let currentIntersect = null;
+//* Naming Projects
+objs[0].name = "project-0";
+objs[1].name = "project-1";
+objs[2].name = "project-2";
+objs[3].name = "project-3";
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
@@ -170,14 +176,34 @@ const tick = () => {
   if (intersects.length) {
     if (currentIntersect === null) {
       console.log("mouse enter");
-      console.log(intersects);
-      rubrik_1.style.display = "block";
+
+      //  console.log(intersects);
+      //  rubrik_1.style.display = "block";
     }
+    if (currentIntersect) {
+      if (currentIntersect.object.name === "project-0") {
+        rubrik_0.style.display = "block";
+      }
+      if (currentIntersect.object.name === "project-1") {
+        rubrik_1.style.display = "block";
+      }
+      if (currentIntersect.object.name === "project-2") {
+        rubrik_2.style.display = "block";
+      }
+      if (currentIntersect.object.name === "project-3") {
+        rubrik_3.style.display = "block";
+      }
+    }
+
     currentIntersect = intersects[0];
   } else {
     if (currentIntersect) {
       console.log("mouse leave");
+      rubrik_0.style.display = "none";
       rubrik_1.style.display = "none";
+      rubrik_2.style.display = "none";
+      rubrik_3.style.display = "none";
+      // rubrik_1.style.display = "none";
     }
     currentIntersect = null;
   }
