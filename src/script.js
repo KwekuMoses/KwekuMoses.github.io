@@ -8,7 +8,7 @@ import gsap from "gsap";
 const textureLoader = new THREE.TextureLoader();
 
 // Debug
-const gui = new dat.GUI();
+//const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -16,16 +16,50 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
-const geometry = new THREE.SphereGeometry(5, 32, 32);
+/**
+ * Fonts
+ */
+const fontLoader = new THREE.FontLoader();
+
+fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
+  console.log("loaded");
+});
+fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
+  const textGeometry = new THREE.TextGeometry(
+    "KWEKU MOSES FULLSTACK DEVELOPER",
+    {
+      font: font,
+      size: 2,
+      height: 0.2,
+      curveSegments: 12,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 5,
+    }
+  );
+  const textMaterial = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+  });
+  const text = new THREE.Mesh(textGeometry, textMaterial);
+  scene.add(text);
+
+  text.position.set(-30, 10, 0);
+});
+
+const geometry = new THREE.PlaneGeometry(12, 12);
 
 for (let i = 0; i < 4; i++) {
   const material = new THREE.MeshBasicMaterial({
     map: textureLoader.load(`/photographs/${i}.JPG`),
+    side: THREE.DoubleSide,
     // map: textureLoader.load(`/photographs/0.png`),
   });
 
+  //* Make horizontal
   const img = new THREE.Mesh(geometry, material);
-  img.position.set(Math.random() + 10.9, i * -14.8);
+  img.position.set(Math.random() + 40.9 * i, i * -14.8 * 0);
 
   scene.add(img);
 }
@@ -81,11 +115,10 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 20;
+camera.position.z = 60;
 scene.add(camera);
 
-gui.add(camera.position, "y").min(-5).max(10);
-
+//gui.add(camera.position, "y").min(-5).max(10);
 // Controls
 // const controls = new OrbitControls(camera, canvas)
 // controls.enableDamping = true
@@ -108,13 +141,13 @@ let position = 0;
 
 function onMouseWheel(event) {
   //  console.log(event.deltaY);
-  y = event.deltaY * 0.0007;
+  y = event.deltaY * 0.005;
   if (position < 0) {
     if (event.deltaY < 0) {
       console.log("up stop");
       y = event.deltaY * 0.0;
     }
-  } else if (position > 16) {
+  } else if (position > 36) {
     if (event.deltaY > 0) {
       console.log("down stop");
       y = event.deltaY * 0.0;
@@ -167,6 +200,8 @@ objs[2].name = "project-2";
 objs[3].name = "project-3";
 
 const tick = () => {
+  objs[0].rotation.y += 0.01;
+
   const elapsedTime = clock.getElapsedTime();
 
   // cast a ray
@@ -239,8 +274,9 @@ const tick = () => {
 
   // console.log(intersects);
 
+  //* Hover
   for (const intersect of intersects) {
-    gsap.to(intersect.object.scale, { x: 1.7, y: 1.7 });
+    gsap.to(intersect.object.scale, { x: 1.2, y: 1.2 });
     gsap.to(intersect.object.rotation, { y: -0.5 });
     gsap.to(intersect.object.position, { z: -0.9 });
   }
