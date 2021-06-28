@@ -16,15 +16,16 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
-const geometry = new THREE.PlaneBufferGeometry(1, 1.3);
+const geometry = new THREE.SphereGeometry(5, 32, 32);
 
 for (let i = 0; i < 4; i++) {
   const material = new THREE.MeshBasicMaterial({
     map: textureLoader.load(`/photographs/${i}.JPG`),
+    // map: textureLoader.load(`/photographs/0.png`),
   });
 
   const img = new THREE.Mesh(geometry, material);
-  img.position.set(Math.random() + 0.3, i * -1.8);
+  img.position.set(Math.random() + 10.9, i * -14.8);
 
   scene.add(img);
 }
@@ -80,7 +81,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 2;
+camera.position.z = 20;
 scene.add(camera);
 
 gui.add(camera.position, "y").min(-5).max(10);
@@ -97,7 +98,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0xff000f, 1);
+renderer.setClearColor(0xffffff, 1);
 /*
  * Mouse
  */
@@ -108,6 +109,17 @@ let position = 0;
 function onMouseWheel(event) {
   //  console.log(event.deltaY);
   y = event.deltaY * 0.0007;
+  if (position < 0) {
+    if (event.deltaY < 0) {
+      console.log("up stop");
+      y = event.deltaY * 0.0;
+    }
+  } else if (position > 16) {
+    if (event.deltaY > 0) {
+      console.log("down stop");
+      y = event.deltaY * 0.0;
+    }
+  }
 }
 let currentIntersect = null;
 

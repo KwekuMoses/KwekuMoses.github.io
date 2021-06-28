@@ -33,7 +33,8 @@ h1 {
     font-size: 5em;
     font-weight: lighter;
     margin-left: 10vw;
-    display:none
+    display:none;
+    color:black;
 }
 
 
