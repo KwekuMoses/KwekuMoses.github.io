@@ -8,7 +8,7 @@ import gsap from "gsap";
 const textureLoader = new THREE.TextureLoader();
 
 // Debug
-//const gui = new dat.GUI();
+const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -48,18 +48,44 @@ fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
   text.position.set(-30, 10, 0);
 });
 
-const geometry = new THREE.PlaneGeometry(12, 12);
+//const geometry = new THREE.SphereGeometry(2, 16, 16);
+const geometry = new THREE.BoxBufferGeometry(5, 5, 5);
+
+/*
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+
+const environmentMapTexture = cubeTextureLoader.load([
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMYapYRKEIwPW4eTZG6s0WhMupq4MS-Q86hA&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMYapYRKEIwPW4eTZG6s0WhMupq4MS-Q86hA&usqp=CAU",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMYapYRKEIwPW4eTZG6s0WhMupq4MS-Q86hA&usqp=CAU",
+]);
+*/
+
+/*
+for (let i = 0; i < 4; i++) {
+  const material = [
+    "../static/photographs/0.JPG",
+    "../photographs/1.JPG",
+    "../photographs/2.JPG",
+    "../photographs/3.JPG",
+  ].map((pic) => {
+    return new THREE.MeshLambertMaterial({ map: textureLoader.load(pic) });
+  });
+*/
 
 for (let i = 0; i < 4; i++) {
   const material = new THREE.MeshBasicMaterial({
     map: textureLoader.load(`/photographs/${i}.JPG`),
-    side: THREE.DoubleSide,
+    //  map: environmentMapTexture,
+    //side: THREE.DoubleSide,
+    //  metalness: 0.7,
+    //  roughness: 0.5,
     // map: textureLoader.load(`/photographs/0.png`),
+    // transparent: true,
   });
 
-  //* Make horizontal
   const img = new THREE.Mesh(geometry, material);
-  img.position.set(Math.random() + 40.9 * i, i * -14.8 * 0);
+  img.position.set(Math.random() + 10.9, i * -14.8);
 
   scene.add(img);
 }
@@ -75,11 +101,41 @@ scene.traverse((object) => {
 
 // Lights
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1);
-pointLight.position.x = 2;
+const pointLight = new THREE.PointLight(0x000000, 0.1);
+pointLight.position.x = 12;
 pointLight.position.y = 3;
 pointLight.position.z = 4;
 scene.add(pointLight);
+
+// Geometry
+const particlesGeometry = new THREE.BufferGeometry();
+const count = 11500;
+
+const positions = new Float32Array(count * 3); // Multiply by 3 because each position is composed of 3 values (x, y, z)
+
+for (
+  let i = 0;
+  i < count * 3;
+  i++ // Multiply by 3 for same reason
+) {
+  positions[i] = (Math.random() - 0.5) * 100; // Math.random() - 0.5 to have a random value between -0.5 and +0.5
+}
+
+particlesGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(positions, 3)
+); // Create the Three.js BufferAttribute and specify that each information is composed of 3 values
+
+// Material
+const particlesMaterial = new THREE.PointsMaterial({
+  size: 0.03,
+  sizeAttenuation: true,
+  color: 0xff2883,
+});
+
+// Points
+const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
 
 /**
  * Sizes
@@ -115,7 +171,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 0;
 camera.position.y = 0;
-camera.position.z = 60;
+camera.position.z = 20;
 scene.add(camera);
 
 //gui.add(camera.position, "y").min(-5).max(10);
@@ -131,7 +187,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0xffffff, 1);
+renderer.setClearColor(0xfffffff, 1);
 /*
  * Mouse
  */
@@ -166,7 +222,7 @@ window.addEventListener("mousemove", (event) => {
       switch (currentIntersect.object) {
         case objs[0]:
           console.log("click on object 1");
-          window.open("https://google.com");
+          window.open("https://augustathor.se");
           break;
 
         case objs[1]:
@@ -200,10 +256,12 @@ objs[2].name = "project-2";
 objs[3].name = "project-3";
 
 const tick = () => {
-  objs[0].rotation.y += 0.01;
-
   const elapsedTime = clock.getElapsedTime();
 
+  //objs[0].rotation.z += Math.sin(elapsedTime * 0.00009);
+  //objs[0].rotation.x += Math.sin(elapsedTime * 0.00009);
+  objs[0].rotation.x += 0.0005;
+  objs[0].rotation.z += 0.0009;
   // cast a ray
   raycaster.setFromCamera(mouse, camera);
 
@@ -211,12 +269,12 @@ const tick = () => {
   const intersects = raycaster.intersectObjects(objectsToTest);
 
   for (const intersect of intersects) {
-    intersect.object.material.color.set("#0000ff");
+    //  intersect.object.material.color.set("#0000ff");
   }
 
   for (const object of objectsToTest) {
     if (!intersects.find((intersect) => intersect.object === object)) {
-      object.material.color.set("#ff0000");
+      // object.material.color.set("#ff0000");
     }
   }
 
