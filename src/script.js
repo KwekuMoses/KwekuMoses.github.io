@@ -3,6 +3,9 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
 import gsap from "gsap";
+import { MeshLine, MeshLineMaterial, MeshLineRaycast } from "three.meshline";
+
+console.log(MeshLine);
 
 //Texture Loader
 const textureLoader = new THREE.TextureLoader();
@@ -15,7 +18,18 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png");
+//scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png");
+
+//* RUTNÄT
+
+const size = 10;
+const divisions = 10;
+
+const gridHelper = new THREE.GridHelper(150, 50, 0x00000, 0x000000);
+gridHelper.position.set(0, 2, 0);
+gridHelper.rotation.x = 1.6;
+gridHelper.renderOrder = -20;
+scene.add(gridHelper);
 
 /**
  * Fonts
@@ -80,11 +94,12 @@ fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
     //map: textureLoader.load("/photographs/roughness.jpg"),
     wireframe: true,
   });
+
   /*
   const textMaterial = new THREE.MeshNormalMaterial();
   textMaterial.metalness = 0.7;
   textMaterial.roughness = 0.2;
-  textMaterial.flatShading = true;
+  //textMaterial.flatShading = true;
   //textMaterial.wireframe = true;
 */
   const text_kweku = new THREE.Mesh(textGeometry_kweku, textMaterial);
@@ -268,7 +283,8 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0xffa500, 1);
+renderer.setClearColor(0xffffff, 1);
+
 /*
  * Mouse
  */
@@ -419,8 +435,10 @@ const tick = () => {
     gsap.to(intersect.object.rotation, { y: -0.5 });
     gsap.to(intersect.object.position, { z: -0.9 });
     gsap.to(".rubrik", {
-      x: 500,
-      duration: 3,
+      y: -150,
+      duration: 2.5,
+      opacity: 1,
+      color: 0xff6680,
     });
   }
 
@@ -429,10 +447,9 @@ const tick = () => {
       gsap.to(object.scale, { x: 1, y: 1 });
       gsap.to(object.rotation, { y: 0 });
       gsap.to(object.position, { z: 0 });
-
       gsap.to(".rubrik", {
-        x: 0,
-        duration: 3,
+        y: 0,
+        color: 0xffffff,
       });
     }
   }

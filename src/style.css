@@ -44,7 +44,10 @@ h1 {
     font-weight:900;
     color: rgb(255, 102, 128);
     width:80vw;
+    opacity:0;
+   
 }
+
 
 .contacts {
 
