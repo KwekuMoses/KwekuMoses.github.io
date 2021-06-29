@@ -8,45 +8,106 @@ import gsap from "gsap";
 const textureLoader = new THREE.TextureLoader();
 
 // Debug
-const gui = new dat.GUI();
+//const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png");
 
 /**
  * Fonts
  */
 const fontLoader = new THREE.FontLoader();
 
-fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
-  console.log("loaded");
-});
-fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
-  const textGeometry = new THREE.TextGeometry(
-    "KWEKU MOSES FULLSTACK DEVELOPER",
-    {
-      font: font,
-      size: 2,
-      height: 0.2,
-      curveSegments: 12,
-      bevelEnabled: true,
-      bevelThickness: 0.03,
-      bevelSize: 0.02,
-      bevelOffset: 0,
-      bevelSegments: 5,
-    }
-  );
-  const textMaterial = new THREE.MeshBasicMaterial({
-    color: 0x000000,
+let fontSize = 2;
+let textRotationX = 0;
+let textRotationY = 0.5;
+let textHeight = 0.2;
+let curveSegments = 1;
+let bevelEnabled = false;
+let bevelThickness = 1.8;
+let bevelSize = 1.44;
+let bevelOffset = 0;
+let bevelSegments = 5;
+fontLoader.load("/fonts/RNS.json", (font) => {
+  const textGeometry_kweku = new THREE.TextGeometry("KWEKU MOSES", {
+    font: font,
+    size: fontSize,
+    height: textHeight,
+    curveSegments: curveSegments,
+    bevelEnabled: bevelEnabled,
+    bevelThickness: bevelThickness,
+    bevelSize: bevelSize,
+    bevelOffset: bevelOffset,
+    bevelSegments: bevelSegments,
   });
-  const text = new THREE.Mesh(textGeometry, textMaterial);
-  scene.add(text);
+  const textGeometry_fullstack = new THREE.TextGeometry("FULLSTACK DEVELOPER", {
+    font: font,
+    size: fontSize,
+    height: textHeight,
+    curveSegments: curveSegments,
+    bevelEnabled: bevelEnabled,
+    bevelThickness: bevelThickness,
+    bevelSize: bevelSize,
+    bevelOffset: bevelOffset,
+    bevelSegments: bevelSegments,
+  });
 
-  text.position.set(-30, 10, 0);
+  const textGeometry_2020 = new THREE.TextGeometry("PORTFOLIO 2020", {
+    font: font,
+    size: fontSize,
+    height: textHeight,
+    curveSegments: curveSegments,
+    bevelEnabled: bevelEnabled,
+    bevelThickness: bevelThickness,
+    bevelSize: bevelSize,
+    bevelOffset: bevelOffset,
+    bevelSegments: bevelSegments,
+  });
+
+  const textMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00000,
+    //map: textureLoader.load("/photographs/roughness.jpg"),
+    wireframe: true,
+  });
+
+  /* const textMaterial = new THREE.MeshNormalMaterial();
+  textMaterial.metalness = 0.7;
+  textMaterial.roughness = 0.2;
+  textMaterial.flatShading = true;
+  textMaterial.wireframe = true; */
+
+  const text_kweku = new THREE.Mesh(textGeometry_kweku, textMaterial);
+  const text_fullstack = new THREE.Mesh(textGeometry_fullstack, textMaterial);
+  const text_2020 = new THREE.Mesh(textGeometry_2020, textMaterial);
+
+  //text.rotation.y = 69.3;
+  text_kweku.rotation.x = textRotationX;
+  text_kweku.rotation.y = textRotationY;
+  text_kweku.position.set(-26, 12, 0);
+
+  text_fullstack.rotation.x = textRotationX;
+  text_fullstack.rotation.y = textRotationY;
+  text_fullstack.position.set(-26, 8, 0);
+
+  text_2020.rotation.x = textRotationX;
+  text_2020.rotation.y = textRotationY;
+  text_2020.position.set(-26, 4, 0);
+
+  scene.add(text_kweku);
+  scene.add(text_fullstack);
+  scene.add(text_2020);
 });
+
+/**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight(0xdd, 0.9);
+scene.add(ambientLight);
 
 //const geometry = new THREE.SphereGeometry(2, 16, 16);
 const geometry = new THREE.BoxBufferGeometry(5, 5, 5);
@@ -101,12 +162,13 @@ scene.traverse((object) => {
 
 // Lights
 
-const pointLight = new THREE.PointLight(0x000000, 0.1);
+const pointLight = new THREE.PointLight(0xdd, 0.9);
 pointLight.position.x = 12;
 pointLight.position.y = 3;
 pointLight.position.z = 4;
 scene.add(pointLight);
 
+//* Particles
 // Geometry
 const particlesGeometry = new THREE.BufferGeometry();
 const count = 11500;
@@ -118,7 +180,7 @@ for (
   i < count * 3;
   i++ // Multiply by 3 for same reason
 ) {
-  positions[i] = (Math.random() - 0.5) * 100; // Math.random() - 0.5 to have a random value between -0.5 and +0.5
+  positions[i] = (Math.random() - 0.5) * 200; // Math.random() - 0.5 to have a random value between -0.5 and +0.5
 }
 
 particlesGeometry.setAttribute(
@@ -128,11 +190,20 @@ particlesGeometry.setAttribute(
 
 // Material
 const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.03,
+  size: 0.2,
   sizeAttenuation: true,
-  color: 0xff2883,
+  color: 0xdd,
 });
 
+const particleTexture = textureLoader.load("/photographs/particle.png");
+
+// ...
+
+particlesMaterial.map = particleTexture;
+particlesMaterial.transparent = true;
+particlesMaterial.alphaMap = particleTexture;
+particlesMaterial.depthWrite = false;
+//particlesMaterial.blending = THREE.AdditiveBlending;
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particles);
@@ -187,7 +258,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0xfffffff, 1);
+renderer.setClearColor(0x00000, 1);
 /*
  * Mouse
  */
@@ -346,6 +417,19 @@ const tick = () => {
       gsap.to(object.position, { z: 0 });
     }
   }
+
+  //* PARTICLES *//
+  for (let i = 0; i < count; i++) {
+    let i3 = i * 10;
+
+    const x = particlesGeometry.attributes.position.array[i3];
+    particlesGeometry.attributes.position.array[i3 + 1] = Math.sin(
+      elapsedTime + x
+    );
+  }
+  particlesGeometry.attributes.position.needsUpdate = true;
+
+  // ...
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);

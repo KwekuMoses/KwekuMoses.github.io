@@ -30,11 +30,32 @@ body
 }
 
 h1 {
-    font-size: 5em;
+    font-size: 2em;
     font-weight: lighter;
     margin-left: 10vw;
     display:none;
     color:black;
+
 }
 
+.rubrik {
+    font-family: "Arial", Times, serif;
+    color: rgb(255, 102, 128);
+}
+
+.contacts {
+    color: pink;
+    position: fixed;
+    bottom: 6px;
+    left:20px;
+    font-size: 1vw;
+
+   
+}
+
+a{
+ text-decoration:none;   
+ color: pink;
+ text-transform: uppercase;    
+}
 
