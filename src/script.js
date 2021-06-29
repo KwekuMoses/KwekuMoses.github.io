@@ -18,18 +18,19 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
-//scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png");
+scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png");
 
 //* RUTNÄT
-
+/*
 const size = 10;
 const divisions = 10;
-
-const gridHelper = new THREE.GridHelper(150, 50, 0x00000, 0x000000);
+const gridHelper = new THREE.GridHelper(150, 35, 0xdd, 0xdd);
 gridHelper.position.set(0, 2, 0);
 gridHelper.rotation.x = 1.6;
+gridHelper.material.depthTest = false;
 gridHelper.renderOrder = -20;
-scene.add(gridHelper);
+
+scene.add(gridHelper); */
 
 /**
  * Fonts
@@ -90,7 +91,7 @@ fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
   );
 
   const textMaterial = new THREE.MeshBasicMaterial({
-    color: 0x00000,
+    color: 0x000000,
     //map: textureLoader.load("/photographs/roughness.jpg"),
     wireframe: true,
   });
@@ -111,20 +112,27 @@ fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
   text_kweku.rotation.y = textRotationY;
   text_kweku.rotation.z = textRotationZ;
   text_kweku.position.set(-26, 10, 0);
+  text_kweku.renderOrder = 100;
 
   text_fullstack.rotation.x = textRotationX;
   text_fullstack.rotation.y = textRotationY;
   text_fullstack.rotation.z = textRotationZ;
   text_fullstack.position.set(-26, 6, 0);
+  text_fullstack.renderOrder = 1;
 
   text_2020.rotation.x = textRotationX;
   text_2020.rotation.y = textRotationY;
   text_2020.rotation.z = textRotationZ;
   text_2020.position.set(-26, 2, 0);
+  text_2020.renderOrder = 100;
 
   scene.add(text_kweku);
   scene.add(text_fullstack);
   scene.add(text_2020);
+
+  text_2020.onBeforeRender = function (renderer) {
+    renderer.clearDepth();
+  };
 });
 
 /**
@@ -172,7 +180,6 @@ for (let i = 0; i < 4; i++) {
 
   const img = new THREE.Mesh(geometry, material);
   img.position.set(Math.random() + 10.9, i * -14.8);
-
   scene.add(img);
 }
 
@@ -262,7 +269,7 @@ window.addEventListener("resize", () => {
 const camera = new THREE.PerspectiveCamera(
   75,
   sizes.width / sizes.height,
-  0.1,
+  3.9,
   100
 );
 camera.position.x = 0;
@@ -284,6 +291,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(0xffffff, 1);
+renderer.sortObjects = false;
 
 /*
  * Mouse
