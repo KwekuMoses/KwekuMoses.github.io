@@ -39,23 +39,37 @@ h1 {
 }
 
 .rubrik {
-    font-family: "Arial", Times, serif;
+    font-family: "RNS Sisma", Times, serif;
+    font-size:4vw;
+    font-weight:900;
     color: rgb(255, 102, 128);
+    width:80vw;
 }
 
 .contacts {
-    color: pink;
+
     position: fixed;
     bottom: 6px;
     left:20px;
-    font-size: 1vw;
-
+    font-size: 1.3em;
+    text-decoration: none
    
 }
 
-a{
+a {
+    text-decoration:none;
+    color: pink;
+    font-family:plastic;
+}
+
+ .symbol{
  text-decoration:none;   
  color: pink;
- text-transform: uppercase;    
+ text-transform: lowercase;
+ font-family: 'Lucidity Extras02';   
+ font-size: 1.7em;
+ font-weight:bold;
+
+ 
 }
 

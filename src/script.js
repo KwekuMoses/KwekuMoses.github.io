@@ -22,18 +22,19 @@ scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png"
  */
 const fontLoader = new THREE.FontLoader();
 
-let fontSize = 2;
+let fontSize = 3.5;
 let textRotationX = 0;
-let textRotationY = 0.5;
-let textHeight = 0.2;
-let curveSegments = 1;
+let textRotationY = 0.3;
+let textRotationZ = 0;
+let textHeight = 1.5;
+let curveSegments = 3;
 let bevelEnabled = false;
 let bevelThickness = 1.8;
 let bevelSize = 1.44;
 let bevelOffset = 0;
 let bevelSegments = 5;
-fontLoader.load("/fonts/RNS.json", (font) => {
-  const textGeometry_kweku = new THREE.TextGeometry("KWEKU MOSES", {
+fontLoader.load("/fonts/Plastic_Regular.json", (font) => {
+  const textGeometry_kweku = new THREE.TextGeometry("K W E K U   M O S E S", {
     font: font,
     size: fontSize,
     height: textHeight,
@@ -44,42 +45,48 @@ fontLoader.load("/fonts/RNS.json", (font) => {
     bevelOffset: bevelOffset,
     bevelSegments: bevelSegments,
   });
-  const textGeometry_fullstack = new THREE.TextGeometry("FULLSTACK DEVELOPER", {
-    font: font,
-    size: fontSize,
-    height: textHeight,
-    curveSegments: curveSegments,
-    bevelEnabled: bevelEnabled,
-    bevelThickness: bevelThickness,
-    bevelSize: bevelSize,
-    bevelOffset: bevelOffset,
-    bevelSegments: bevelSegments,
-  });
+  const textGeometry_fullstack = new THREE.TextGeometry(
+    "F U L L S T A C K   D E V E L  O   P   E   R",
+    {
+      font: font,
+      size: fontSize,
+      height: textHeight,
+      curveSegments: curveSegments,
+      bevelEnabled: bevelEnabled,
+      bevelThickness: bevelThickness,
+      bevelSize: bevelSize,
+      bevelOffset: bevelOffset,
+      bevelSegments: bevelSegments,
+    }
+  );
 
-  const textGeometry_2020 = new THREE.TextGeometry("PORTFOLIO 2020", {
-    font: font,
-    size: fontSize,
-    height: textHeight,
-    curveSegments: curveSegments,
-    bevelEnabled: bevelEnabled,
-    bevelThickness: bevelThickness,
-    bevelSize: bevelSize,
-    bevelOffset: bevelOffset,
-    bevelSegments: bevelSegments,
-  });
+  const textGeometry_2020 = new THREE.TextGeometry(
+    "P O R T F O L I O  2 0 2 1",
+    {
+      font: font,
+      size: fontSize,
+      height: textHeight,
+      curveSegments: curveSegments,
+      bevelEnabled: bevelEnabled,
+      bevelThickness: bevelThickness,
+      bevelSize: bevelSize,
+      bevelOffset: bevelOffset,
+      bevelSegments: bevelSegments,
+    }
+  );
 
   const textMaterial = new THREE.MeshBasicMaterial({
     color: 0x00000,
     //map: textureLoader.load("/photographs/roughness.jpg"),
     wireframe: true,
   });
-
-  /* const textMaterial = new THREE.MeshNormalMaterial();
+  /*
+  const textMaterial = new THREE.MeshNormalMaterial();
   textMaterial.metalness = 0.7;
   textMaterial.roughness = 0.2;
   textMaterial.flatShading = true;
-  textMaterial.wireframe = true; */
-
+  //textMaterial.wireframe = true;
+*/
   const text_kweku = new THREE.Mesh(textGeometry_kweku, textMaterial);
   const text_fullstack = new THREE.Mesh(textGeometry_fullstack, textMaterial);
   const text_2020 = new THREE.Mesh(textGeometry_2020, textMaterial);
@@ -87,15 +94,18 @@ fontLoader.load("/fonts/RNS.json", (font) => {
   //text.rotation.y = 69.3;
   text_kweku.rotation.x = textRotationX;
   text_kweku.rotation.y = textRotationY;
-  text_kweku.position.set(-26, 12, 0);
+  text_kweku.rotation.z = textRotationZ;
+  text_kweku.position.set(-26, 10, 0);
 
   text_fullstack.rotation.x = textRotationX;
   text_fullstack.rotation.y = textRotationY;
-  text_fullstack.position.set(-26, 8, 0);
+  text_fullstack.rotation.z = textRotationZ;
+  text_fullstack.position.set(-26, 6, 0);
 
   text_2020.rotation.x = textRotationX;
   text_2020.rotation.y = textRotationY;
-  text_2020.position.set(-26, 4, 0);
+  text_2020.rotation.z = textRotationZ;
+  text_2020.position.set(-26, 2, 0);
 
   scene.add(text_kweku);
   scene.add(text_fullstack);
@@ -171,7 +181,7 @@ scene.add(pointLight);
 //* Particles
 // Geometry
 const particlesGeometry = new THREE.BufferGeometry();
-const count = 11500;
+const count = 20500;
 
 const positions = new Float32Array(count * 3); // Multiply by 3 because each position is composed of 3 values (x, y, z)
 
@@ -192,7 +202,7 @@ particlesGeometry.setAttribute(
 const particlesMaterial = new THREE.PointsMaterial({
   size: 0.2,
   sizeAttenuation: true,
-  color: 0xdd,
+  color: 0xffb6c1,
 });
 
 const particleTexture = textureLoader.load("/photographs/particle.png");
@@ -258,7 +268,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x00000, 1);
+renderer.setClearColor(0xffa500, 1);
 /*
  * Mouse
  */
@@ -408,6 +418,10 @@ const tick = () => {
     gsap.to(intersect.object.scale, { x: 1.2, y: 1.2 });
     gsap.to(intersect.object.rotation, { y: -0.5 });
     gsap.to(intersect.object.position, { z: -0.9 });
+    gsap.to(".rubrik", {
+      x: 500,
+      duration: 3,
+    });
   }
 
   for (const object of objs) {
@@ -415,6 +429,11 @@ const tick = () => {
       gsap.to(object.scale, { x: 1, y: 1 });
       gsap.to(object.rotation, { y: 0 });
       gsap.to(object.position, { z: 0 });
+
+      gsap.to(".rubrik", {
+        x: 0,
+        duration: 3,
+      });
     }
   }
 
