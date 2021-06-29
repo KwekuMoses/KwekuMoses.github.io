@@ -18,7 +18,7 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = textureLoader.load("/photographs/Eget mönster vit Rätt.png");
+scene.background = textureLoader.load("/photographs/a.jpg");
 
 //* RUTNÄT
 /*
