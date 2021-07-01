@@ -44,8 +44,35 @@ h1 {
     font-weight:900;
     color: rgb(255, 102, 128);
     width:80vw;
+    opacity:0 ;
 }
 
+
+.rubrik_1 {
+  
+}
+
+#block {
+    background: #CCC;
+    filter: alpha(opacity=60);
+    /* IE */
+    -moz-opacity: 0.6;
+    /* Mozilla */
+    opacity: 0.6;
+    /* CSS3 */
+    position: absolute;
+    
+    height: 100%;
+    width: 100%;
+  }
+
+  #text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 
 .contacts {
 
@@ -72,4 +99,21 @@ a {
  font-weight:bold;
 
  
+}
+.bounce {
+   
+    animation: ball-jumping 3s ease-in-out infinite;
+}
+
+
+@keyframes ball-jumping {
+    20%, 80% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(5px);
+        color: orange;
+
+    }
 }
