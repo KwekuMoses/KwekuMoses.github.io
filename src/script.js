@@ -29,7 +29,7 @@ function myFunction(x) {
     //scene.background = textureLoader.load("/photographs/rut-2.png");
 
     // GridHelper
-    const gridHelper = new THREE.GridHelper(150, 45, 0x000000, 0x000000);
+    const gridHelper = new THREE.GridHelper(300, 90, 0x000000, 0x000000);
     gridHelper.position.set(0, 2, 0);
     gridHelper.rotation.x = 1.6;
     gridHelper.material.depthTest = false;
@@ -131,12 +131,12 @@ function myFunction(x) {
       scene.add(text_2020);
     });
 
-    let about_size = 2;
+    let about_size = 1.5;
     let about_height = 0.2;
 
     fontLoader.load("fonts/helvetiker_regular.typeface.json", (font) => {
       const textGeometry_about = new THREE.TextGeometry(
-        "Born & Raised in \n Berga, Linkoping \n\n\n  Currently Living in \n Gardet, Stockholm \n\n\n  Studying \n Fullstack Webdeveloper \n @ Nackademin \n YH",
+        "Click The Boxes To  \n Go To My Projects \n\n\n Studying \n Fullstack Webdeveloper \n @ Nackademin \n YH \n\n\n  Currently Living in \n Gardet, Stockholm \n\n\n  Born & Raised in \n Berga, Linkoping ",
         {
           font: font,
           size: about_size,
@@ -152,12 +152,13 @@ function myFunction(x) {
 
       //* ABOUT TEXT
 
-      const textMaterial = new THREE.MeshNormalMaterial({
-        //  color: 0xdd,
+      const textMaterial = new THREE.MeshBasicMaterial({
+          color: 0x2A00FF,
         wireframe: true,
         //  bevelEnabled: true,
         //  bevelThickness: 1,
         depthWrite: true,
+       // flatShading: true,
       });
 
       const text_about = new THREE.Mesh(textGeometry_about, textMaterial);
@@ -172,7 +173,7 @@ function myFunction(x) {
 
       scene.add(text_about);
       gsap.registerPlugin(ScrollTrigger);
-      gsap.to(text_about.position, {
+      gsap.to(textGeometry_about, {
         scrollTrigger: {
           trigger: "scene",
           start: "top top",
@@ -181,7 +182,7 @@ function myFunction(x) {
           scrub: 2 + i * 9,
           toggleActions: "restart pause resume pause",
         },
-        y: "-=3" + (i * (1 * i)) / 4,
+        size: 3,
       });
     });
 
@@ -222,6 +223,89 @@ function myFunction(x) {
         y: "-=3" + (i * (1 * i)) / 4,
       });
     }
+    
+
+ fontLoader.load("fonts/helvetiker_regular.typeface.json", (font) => {
+      const ux_Geometry = new THREE.TextGeometry(
+        "Nothing To See Up Here, yet :)",
+        {
+          font: font,
+          size: about_size,
+          height: about_height,
+          curveSegments: curveSegments - 3,
+          bevelEnabled: bevelEnabled,
+          bevelThickness: bevelThickness + 2,
+          bevelSize: bevelSize,
+          bevelOffset: bevelOffset,
+          bevelSegments: bevelSegments,
+        }
+      );
+
+
+      const ux_Material = new THREE.MeshNormalMaterial({
+        //  color: 0x2A00FF,
+       // wireframe: true,
+        //  bevelEnabled: true,
+        //  bevelThickness: 1,
+        depthWrite: true,
+       // flatShading: true,
+      });
+
+      const ux_mesh = new THREE.Mesh(ux_Geometry, ux_Material);
+
+      //text.rotation.y = 69.3;
+      ux_mesh.rotation.x = textRotationX;
+      ux_mesh.rotation.y = textRotationY + 0.08;
+      ux_mesh.rotation.z = textRotationZ;
+      ux_Material.depthTest = true;
+      ux_mesh.position.set(-15, 60, 2);
+      ux_mesh.renderOrder = 100;
+      scene.add(ux_mesh);
+   
+ })
+
+
+
+  fontLoader.load("fonts/helvetiker_regular.typeface.json", (font) => {
+      const ux_Geometry = new THREE.TextGeometry(
+        "Nothing To See Below Here, yet :)",
+        {
+          font: font,
+          size: about_size,
+          height: about_height,
+          curveSegments: curveSegments - 3,
+          bevelEnabled: bevelEnabled,
+          bevelThickness: bevelThickness + 2,
+          bevelSize: bevelSize,
+          bevelOffset: bevelOffset,
+          bevelSegments: bevelSegments,
+        }
+      );
+
+
+      const ux_Material = new THREE.MeshNormalMaterial({
+        //  color: 0x2A00FF,
+        //wireframe: true,
+        //  bevelEnabled: true,
+        //  bevelThickness: 1,
+        depthWrite: true,
+       // flatShading: true,
+      });
+
+      const ux_mesh = new THREE.Mesh(ux_Geometry, ux_Material);
+
+      //text.rotation.y = 69.3;
+      ux_mesh.rotation.x = textRotationX;
+      ux_mesh.rotation.y = textRotationY + 0.08;
+      ux_mesh.rotation.z = textRotationZ;
+      ux_Material.depthTest = true;
+      ux_mesh.position.set(-15, -90, 2);
+      ux_mesh.renderOrder = 100;
+      scene.add(ux_mesh);
+
+ })
+
+
 
     /**
      * Lights
@@ -320,6 +404,47 @@ function myFunction(x) {
     renderer.setClearColor(0xffffff, 1);
     renderer.sortObjects = false;
 
+/*
+* Profile Image
+*/ 
+
+const profile_geometry = new THREE.PlaneGeometry( 6.5, 10 );
+const profile_material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide, map:textureLoader.load("/photographs/experimentBWL.jpg")} );
+const profile_plane = new THREE.Mesh( profile_geometry, profile_material );
+scene.add( profile_plane );
+profile_plane.position.set(-20,-32, 1)
+
+    gsap.to(profile_plane.position, {
+        scrollTrigger: {
+          trigger: "scene",
+          start: "top top",
+          end: "bottom ",
+          //markers: true,
+          scrub: 3,
+          toggleActions: "restart pause resume pause",
+        },
+        y: -80 ,
+      });
+        gsap.to(profile_plane.rotation, {
+        scrollTrigger: {
+          trigger: "scene",
+          start: "top top",
+          end: "bottom ",
+          //markers: true,
+          scrub: 3,
+        },
+        z: 2.55,
+      });
+
+//* Animate Mouth symbol
+let mouth = document.getElementById("mouth_symbol")
+
+gsap.to(mouth, {
+  x: 500
+});
+
+
+
     /*
      * Mouse
      */
@@ -375,6 +500,11 @@ function myFunction(x) {
     let rubrik_1 = document.getElementById("rubrik_1");
     let rubrik_2 = document.getElementById("rubrik_2");
     let rubrik_3 = document.getElementById("rubrik_3");
+
+
+
+
+
 
     /**
      * Animate
@@ -489,7 +619,7 @@ function myFunction(x) {
        */
       position += y;
       camera.position.y = -position;
-      y *= 0.9;
+      y *= 0.86;
 
       /*
        * Hover over boxes
@@ -515,6 +645,14 @@ function myFunction(x) {
           });
         }
       }
+
+//** CURSOR */      
+    if(intersects.length > 0) {
+        $('html,body').css('cursor', 'grab');
+    } else {
+        $('html,body').css('cursor', 'default');
+    }
+
 
       /*
        *PARTICLES

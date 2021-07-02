@@ -76,18 +76,27 @@ h1 {
 
 .contacts {
 
-    position: fixed;
-    bottom: 6px;
-    left:20px;
+    position:absolute;
+
+    bottom: 16px;
+    left:16px;
     font-size: 1.3em;
-    text-decoration: none
-   
+    text-decoration: none;
+    text-shadow: 1.6px 0 #ed81a2  ;
 }
+
 
 a {
     text-decoration:none;
     color: pink;
     font-family:plastic;
+    transition: 1s;
+}
+
+a:hover {
+    color: orange;
+    text-shadow: 1px 0 #ed81a2 ;
+
 }
 
  .symbol{
@@ -95,11 +104,19 @@ a {
  color: pink;
  text-transform: lowercase;
  font-family: 'Lucidity Extras02';   
- font-size: 1.7em;
+ font-size: 2em;
  font-weight:bold;
-
- 
+ text-shadow: 2px 1px #ffe9ec;
+ transition:1s;
+ position:relative;
 }
+
+ .symbol:hover {
+color: orange;
+ text-shadow: 1px 0 orange;
+
+ }
+
 .bounce {
    
     animation: ball-jumping 3s ease-in-out infinite;
@@ -116,4 +133,18 @@ a {
         color: orange;
 
     }
+}
+
+
+.profile_img {
+    position:absolute;
+    transition:2s;
+    bottom: 15px;
+    left: 15px;
+    width:90px;
+}
+
+.profile_img:hover {
+    
+    width: 100px;
 }
