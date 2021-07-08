@@ -38,7 +38,7 @@ gridHelper.material.opacity = 0.8;
 // gridHelper.minFilter = THREE.NearestFilter;
 
 scene.add(gridHelper);
-
+console.log("suck a dick");
 /**
  * Fonts
  */
