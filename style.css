@@ -1,0 +1,158 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    height: 100vh;
+    font-family: 'Poppins';
+    color:white;
+}
+
+.webgl
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.content {
+    position:relative;
+    display:grid;
+    align-items:center; 
+    z-index: 1;
+    height:100%;
+    width: 100%
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: lighter;
+    margin-left: 10vw;
+    display:none;
+    color:black;
+
+}
+
+.rubrik {
+    font-family: "RNS Sisma", Times, serif;
+    font-size:4vw;
+    font-weight:900;
+    color: rgb(255, 102, 128);
+    width:80vw;
+    opacity:0 ;
+}
+
+
+.rubrik_1 {
+  
+}
+
+#block {
+    background: #CCC;
+    filter: alpha(opacity=60);
+    /* IE */
+    -moz-opacity: 0.6;
+    /* Mozilla */
+    opacity: 0.6;
+    /* CSS3 */
+    position: absolute;
+    
+    height: 100%;
+    width: 100%;
+  }
+
+  #text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+.contacts {
+
+    position:absolute;
+
+    bottom: 16px;
+    left:16px;
+    font-size: 1.3em;
+    text-decoration: none;
+    text-shadow: 1.6px 0 #ed81a2  ;
+}
+
+
+a {
+    text-decoration:none;
+    color: pink;
+    font-family:plastic;
+    transition: 1s;
+}
+
+a:hover {
+    color: orange;
+    text-shadow: 1px 0 #ed81a2 ;
+
+}
+
+ .symbol{
+ text-decoration:none;   
+ color: pink;
+ text-transform: lowercase;
+ font-family: 'Lucidity Extras02';   
+ font-size: 2em;
+ font-weight:bold;
+ text-shadow: 2px 1px #ffe9ec;
+ transition:1s;
+ position:relative;
+}
+
+ .symbol:hover {
+color: orange;
+ text-shadow: 1px 0 orange;
+
+ }
+
+.bounce {
+   
+    animation: ball-jumping 3s ease-in-out infinite;
+}
+
+
+@keyframes ball-jumping {
+    20%, 80% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(5px);
+        color: orange;
+
+    }
+}
+
+#myDiv {
+    width: 100vh;
+    height: 100vw;
+    background-color:red;
+    z-index:9;
+}
+
+.profile_img {
+    position:absolute;
+    transition:2s;
+    bottom: 15px;
+    left: 15px;
+    width:90px;
+}
+
+
+
+.profile_img:hover {
+    
+    width: 100px;
+}
